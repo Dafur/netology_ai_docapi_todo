@@ -11,6 +11,10 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
+// @title           Todo API Service
+// @version         1.0
+// @description     Учебный REST API-сервис для управления задачами (todo) и пользователями.
+// @BasePath        /api/v1
 func main() {
 	r := chi.NewRouter()
 
