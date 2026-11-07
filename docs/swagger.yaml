@@ -3,18 +3,18 @@ definitions:
   models.CreateTodoRequest:
     properties:
       description:
-        description: 'Опционально: до 1000 символов'
+        description: Подробное описание задачи
         maxLength: 1000
         type: string
       done:
         description: По умолчанию false (задача не выполнена)
         type: boolean
       title:
-        description: 'Обязательно: до 200 символов'
+        description: Краткое название задачи
         maxLength: 200
         type: string
       user_id:
-        description: 'Обязательно: владелец задачи'
+        description: Владелец задачи
         type: integer
     required:
     - title
@@ -23,32 +23,47 @@ definitions:
   models.CreateUserRequest:
     properties:
       email:
-        description: 'Обязательно: валидный email'
+        description: Email пользователя
         type: string
       name:
-        description: 'Обязательно: до 100 символов'
+        description: Отображаемое имя пользователя
         maxLength: 100
         type: string
     required:
     - email
     - name
     type: object
-  models.ErrorResponse:
-    properties:
-      error:
-        description: Машиночитаемый код ошибки ("not_found", "validation_error", "internal_error")
-        type: string
-      message:
-        description: Человекочитаемое описание ошибки
-        type: string
-    type: object
   models.SuccessResponse:
     properties:
       data:
-        description: Полезная нагрузка; может отсутствовать (например, при удалении)
+        description: Полезная нагрузка; может отсутствовать
       success:
         description: Всегда true в этом формате ответа
         type: boolean
+    type: object
+  models.Todo:
+    properties:
+      created_at:
+        description: Дата и время создания (RFC 3339)
+        type: string
+      description:
+        description: Подробное описание задачи
+        type: string
+      done:
+        description: Признак выполнения задачи
+        type: boolean
+      id:
+        description: Уникальный идентификатор задачи
+        type: integer
+      title:
+        description: Краткое название задачи
+        type: string
+      updated_at:
+        description: Дата и время последнего обновления (RFC 3339)
+        type: string
+      user_id:
+        description: Идентификатор владельца задачи
+        type: integer
     type: object
   models.UpdateTodoRequest:
     properties:
@@ -74,6 +89,21 @@ definitions:
         maxLength: 100
         type: string
     type: object
+  models.User:
+    properties:
+      created_at:
+        description: Дата и время регистрации (RFC 3339)
+        type: string
+      email:
+        description: Email пользователя
+        type: string
+      id:
+        description: Уникальный идентификатор пользователя
+        type: integer
+      name:
+        description: Отображаемое имя пользователя
+        type: string
+    type: object
 info:
   contact: {}
   description: Учебный REST API-сервис для управления задачами (todo) и пользователями.
@@ -89,11 +119,14 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.SuccessResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            allOf:
+            - $ref: '#/definitions/models.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Todo'
+                  type: array
+              type: object
       summary: Получить список всех задач
       tags:
       - todos
@@ -114,11 +147,16 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.SuccessResponse'
+            allOf:
+            - $ref: '#/definitions/models.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Todo'
+              type: object
         "400":
           description: Невалидный запрос
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
       summary: Создать новую задачу
       tags:
       - todos
@@ -137,11 +175,11 @@ paths:
         "400":
           description: Неверный ID
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
         "404":
           description: Задача не найдена
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
       summary: Удалить задачу
       tags:
       - todos
@@ -159,15 +197,20 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.SuccessResponse'
+            allOf:
+            - $ref: '#/definitions/models.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Todo'
+              type: object
         "400":
           description: Неверный ID
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
         "404":
           description: Задача не найдена
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
       summary: Получить задачу по ID
       tags:
       - todos
@@ -193,15 +236,20 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.SuccessResponse'
+            allOf:
+            - $ref: '#/definitions/models.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Todo'
+              type: object
         "400":
           description: Неверный ID или невалидный запрос
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
         "404":
           description: Задача не найдена
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
       summary: Частично обновить задачу
       tags:
       - todos
@@ -214,11 +262,14 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.SuccessResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            allOf:
+            - $ref: '#/definitions/models.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.User'
+                  type: array
+              type: object
       summary: Получить список всех пользователей
       tags:
       - users
@@ -239,11 +290,16 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.SuccessResponse'
+            allOf:
+            - $ref: '#/definitions/models.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
         "400":
           description: Невалидный запрос
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
       summary: Зарегистрировать нового пользователя
       tags:
       - users
@@ -262,11 +318,11 @@ paths:
         "400":
           description: Неверный ID
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
         "404":
           description: Пользователь не найден
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
       summary: Удалить пользователя
       tags:
       - users
@@ -284,15 +340,20 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.SuccessResponse'
+            allOf:
+            - $ref: '#/definitions/models.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
         "400":
           description: Неверный ID
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
         "404":
           description: Пользователь не найден
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
       summary: Получить пользователя по ID
       tags:
       - users
@@ -318,15 +379,20 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.SuccessResponse'
+            allOf:
+            - $ref: '#/definitions/models.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
         "400":
           description: Неверный ID или невалидный запрос
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
         "404":
           description: Пользователь не найден
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            type: string
       summary: Частично обновить пользователя
       tags:
       - users

@@ -29,13 +29,22 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.SuccessResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Todo"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -67,13 +76,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.SuccessResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.Todo"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Невалидный запрос",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -102,19 +123,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.SuccessResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.Todo"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Неверный ID",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Задача не найдена",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -153,19 +186,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.SuccessResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.Todo"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Неверный ID или невалидный запрос",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Задача не найдена",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -192,13 +237,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Неверный ID",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Задача не найдена",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -218,13 +263,22 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.SuccessResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.User"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -256,13 +310,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.SuccessResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.User"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Невалидный запрос",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -291,19 +357,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.SuccessResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.User"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Неверный ID",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Пользователь не найден",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -342,19 +420,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.SuccessResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.User"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Неверный ID или невалидный запрос",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Пользователь не найден",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -381,13 +471,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Неверный ID",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Пользователь не найден",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -403,7 +493,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "description": {
-                    "description": "Опционально: до 1000 символов",
+                    "description": "Подробное описание задачи",
                     "type": "string",
                     "maxLength": 1000
                 },
@@ -412,12 +502,12 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "title": {
-                    "description": "Обязательно: до 200 символов",
+                    "description": "Краткое название задачи",
                     "type": "string",
                     "maxLength": 200
                 },
                 "user_id": {
-                    "description": "Обязательно: владелец задачи",
+                    "description": "Владелец задачи",
                     "type": "integer"
                 }
             }
@@ -430,26 +520,13 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "description": "Обязательно: валидный email",
+                    "description": "Email пользователя",
                     "type": "string"
                 },
                 "name": {
-                    "description": "Обязательно: до 100 символов",
+                    "description": "Отображаемое имя пользователя",
                     "type": "string",
                     "maxLength": 100
-                }
-            }
-        },
-        "models.ErrorResponse": {
-            "type": "object",
-            "properties": {
-                "error": {
-                    "description": "Машиночитаемый код ошибки (\"not_found\", \"validation_error\", \"internal_error\")",
-                    "type": "string"
-                },
-                "message": {
-                    "description": "Человекочитаемое описание ошибки",
-                    "type": "string"
                 }
             }
         },
@@ -457,11 +534,44 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "data": {
-                    "description": "Полезная нагрузка; может отсутствовать (например, при удалении)"
+                    "description": "Полезная нагрузка; может отсутствовать"
                 },
                 "success": {
                     "description": "Всегда true в этом формате ответа",
                     "type": "boolean"
+                }
+            }
+        },
+        "models.Todo": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "Дата и время создания (RFC 3339)",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Подробное описание задачи",
+                    "type": "string"
+                },
+                "done": {
+                    "description": "Признак выполнения задачи",
+                    "type": "boolean"
+                },
+                "id": {
+                    "description": "Уникальный идентификатор задачи",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "Краткое название задачи",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "Дата и время последнего обновления (RFC 3339)",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "Идентификатор владельца задачи",
+                    "type": "integer"
                 }
             }
         },
@@ -495,6 +605,27 @@ const docTemplate = `{
                     "description": "Новое имя; nil — не менять",
                     "type": "string",
                     "maxLength": 100
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "Дата и время регистрации (RFC 3339)",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "Email пользователя",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Уникальный идентификатор пользователя",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Отображаемое имя пользователя",
+                    "type": "string"
                 }
             }
         }

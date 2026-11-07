@@ -11,26 +11,27 @@ type Todo struct {
 	Title       string    `json:"title"`       // Краткое название задачи
 	Description string    `json:"description"` // Подробное описание задачи
 	Done        bool      `json:"done"`        // Признак выполнения задачи
-	CreatedAt   time.Time `json:"created_at"`  // Дата и время создания (UTC)
-	UpdatedAt   time.Time `json:"updated_at"`  // Дата и время последнего обновления (UTC)
+	CreatedAt   time.Time `json:"created_at"`  // Дата и время создания (RFC 3339)
+	UpdatedAt   time.Time `json:"updated_at"`  // Дата и время последнего обновления (RFC 3339)
 }
 
 // CreateTodoRequest — тело запроса на создание новой задачи (POST /todos).
 //
-// Поля проверяются валидатором (go-playground/validator):
-// UserID и Title обязательны, Title ограничен 200 символами,
-// Description — 1000 символами.
+// Обязательные поля: UserID и Title. Сервер проверяет только корректность
+// JSON при декодировании — дополнительных проверок длины или формата нет.
 type CreateTodoRequest struct {
-	UserID      int    `json:"user_id" validate:"required"`       // Обязательно: владелец задачи
-	Title       string `json:"title" validate:"required,max=200"` // Обязательно: до 200 символов
-	Description string `json:"description" validate:"max=1000"`   // Опционально: до 1000 символов
+	UserID      int    `json:"user_id" validate:"required"`       // Владелец задачи
+	Title       string `json:"title" validate:"required,max=200"` // Краткое название задачи
+	Description string `json:"description" validate:"max=1000"`   // Подробное описание задачи
 	Done        bool   `json:"done"`                              // По умолчанию false (задача не выполнена)
 }
 
-// UpdateTodoRequest — тело запроса на частичное обновление задачи (PATCH /todos/{id}).
+// UpdateTodoRequest — тело запроса на частичное обновление задачи (PUT /todos/{id}).
 //
-// Все поля опциональны: обновляются только те, что переданы в запросе.
+// Все поля опциональны: обновляются только те, что переданы в запросе (не nil).
 // Указатели используются для отличия «поле не задано» (nil) от нулевого значения.
+// Сервер проверяет только корректность JSON при декодировании —
+// дополнительных проверок длины или формата нет.
 type UpdateTodoRequest struct {
 	Title       *string `json:"title" validate:"omitempty,max=200"`        // Новое название; nil — не менять
 	Description *string `json:"description" validate:"omitempty,max=1000"` // Новое описание; nil — не менять
